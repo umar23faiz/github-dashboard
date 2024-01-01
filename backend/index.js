@@ -1,0 +1,46 @@
+// server.js
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors')
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(express.json());
+app.use(cors())
+app.get('/api/github-activity/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    console.log(req.params)
+    const userResponse = await axios.get(`https://api.github.com/users/${username}`);
+    const userData = userResponse.data;
+
+    let page = 1;
+    let allRepos = [];
+
+    while (true) {
+        const repoResponse = await axios.get(`https://api.github.com/users/${username}/repos?page=${page}&per_page=100`);
+        const repoData = repoResponse.data;
+
+        if (repoData.length === 0) {
+            // No more repositories, break out of the loop
+            break;
+        }
+        
+        allRepos = allRepos.concat(repoData);
+        page++;
+    }
+    const resp={
+        "userDetails":userData,
+        "repoDetails":allRepos
+    }
+    // Process the data as needed
+    res.json(resp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
