@@ -16,9 +16,12 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [userData, setUserData]: any = useState(null);
   const [showDiv, setShowDiv] = useState(false);
+  const [loading, setLoading] = useState(false); 
+
 
   const fetchData = async () => {
     try {
+      setLoading(true); 
       const response = await fetch(
         `http://localhost:3001/api/github-activity/${username}`
       );
@@ -28,6 +31,8 @@ export default function Home() {
       setShowDiv(true);
     } catch (error) {
       console.error(error);
+    }finally {
+      setLoading(false); // Set loading to false whether the fetch is successful or not
     }
   };
   const extractDate = (activity: any) => {
@@ -36,21 +41,9 @@ export default function Home() {
     );
     return new Date(activity.substring(0, 10)).toLocaleDateString();
   };
-
-  // Function to map GitHub activity data to heatmap data format
-  const mapToHeatmapData = () => {
-    const heatmapData = {};
-
-    userData.forEach((event) => {
-      const date = extractDate(event);
-      heatmapData[date] = (heatmapData[date] || 0) + 1;
-    });
-    console.log(heatmapData);
-    return heatmapData;
-  };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center ml-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="text-center  mt-6">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
           GitHub User Details
         </h1>
@@ -67,11 +60,13 @@ export default function Home() {
           onClick={fetchData}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
         >
-          Fetch Activity
+          Fetch Details
         </button>
       </div>
-      <div className="mt-8 w-full">
-        {showDiv && userData ? (
+      <div className="mt-8 w-full flex-grow">
+      {loading ? (
+          <p className="ml-16 font-bold">Loading...</p> // Show a loading message or spinner
+        ) : (showDiv && userData ? (
           <div className="ml-16 ">
 
             <Image
@@ -94,23 +89,19 @@ export default function Home() {
                       <Typography><ExpandMoreIcon />{res.name}</Typography>
                     </AccordionSummary>
                     <AccordionDetails className="bg-slate-400	 text-white	">
-                      <Typography>
                       <div>
                         Languages: {res.language?res.language:'Not found'}
                         </div>
                         <div className="pt-2">
                           Description: {res.description?res.description:'N/A'}
                         </div>
-                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                  </div>
               ))}
             </div>
           </div>
-        ) : (
-          <div></div>
-        )}
+        ) : null)}
       </div>
     </div>
   );
