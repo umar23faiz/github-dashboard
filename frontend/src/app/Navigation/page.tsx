@@ -3,6 +3,7 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Separator } from "@/components/ui/separator";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -26,9 +27,9 @@ function TopNavigation() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Documentation
+                  Trending Repositories
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
