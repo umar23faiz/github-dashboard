@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <div>
       <ProjectLayout>
-        <LandingPage/>
       </ProjectLayout>
 
     </div>

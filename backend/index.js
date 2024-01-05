@@ -8,10 +8,12 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
+const apiKey = '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'; // Replace with your OpenAI API key
+const apiUrl = 'https://api.openai.com/v1/completions';
+
 app.get("/api/github-activity/:username", async (req, res) => {
   try {
     const { username } = req.params;
-    console.log(req.params);
     const userResponse = await axios.get(
       `https://api.github.com/users/${username}`
     );

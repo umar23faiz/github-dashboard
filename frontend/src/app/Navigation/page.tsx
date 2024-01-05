@@ -4,6 +4,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -12,12 +13,14 @@ import {
   NavigationMenuContent,
 } from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
+import UserSearch from "../UserSearch/page";
+import LandingPage from "../LandingPage/page";
 
 function TopNavigation() {
   return (
-    <div >
-      <div className="mb-8">
-        <NavigationMenu >
+    <div>
+      {/* <div className="mb-8">
+        <NavigationMenu>
           <NavigationMenuList className="flex flex-row justify-center mt-4 gap-4">
             <NavigationMenuItem>
               <Link href="/UserSearch" legacyBehavior passHref>
@@ -42,7 +45,15 @@ function TopNavigation() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-      </div>
+      </div> */}
+      <Tabs defaultValue="trendingRepo" className="w-full ml-4 mt-2 justify-center">
+  <TabsList>
+    <TabsTrigger value="userSearch">User Search</TabsTrigger>
+    <TabsTrigger value="trendingRepo">Trending Repo</TabsTrigger>
+  </TabsList>
+  <TabsContent value="userSearch"><UserSearch/></TabsContent>
+  <TabsContent value="trendingRepo"><LandingPage/></TabsContent>
+</Tabs>
     </div>
   );
 }

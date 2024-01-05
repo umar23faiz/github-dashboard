@@ -5,6 +5,8 @@ import { useState } from "react";
 import Image from "next/image";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ProjectLayout from "../ProjectLayout";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 
 function UserSearch(){
@@ -37,28 +39,28 @@ function UserSearch(){
       return new Date(activity.substring(0, 10)).toLocaleDateString();
     };
     return(
-      <ProjectLayout>
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    <div className="text-center  mt-6">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
-        GitHub User Details
-      </h1>
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-        />
-      </div>
-      <button
-        onClick={fetchData}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
-      >
-        Fetch Details
-      </button>
-    </div>
+    <div className="min-h-screen flex flex-col items-center justify-center">
+    <Card >
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl">Search By Language</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="grid gap-2">
+              <input
+                type="text"
+                placeholder="Enter GitHub username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-2 border focus:outline-none focus:border-blue-500"
+              />{" "}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full" onClick={fetchData}>
+              Fetch Details
+            </Button>
+          </CardFooter>
+        </Card>
     <div className="mt-8 w-full flex-grow">
     {loading ? (
         <p className="ml-16 font-bold">Loading...</p> // Show a loading message or spinner
@@ -100,7 +102,6 @@ function UserSearch(){
       ) : null)}
     </div>
   </div>
-  </ProjectLayout>
 
     )
 }
